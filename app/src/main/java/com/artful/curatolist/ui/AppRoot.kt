@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.artful.curatolist.ui.navigation.AppNavigation
 import com.artful.curatolist.ui.navigation.components.AppBottomNavigation
+import com.artful.curatolist.ui.navigation.components.TopBar
 
 @Composable
 fun AppRoot() {
@@ -14,6 +15,7 @@ fun AppRoot() {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        topBar = { TopBar(navController) },
         bottomBar = { AppBottomNavigation(navController) }
     ) { paddingValues ->
         AppNavigation(navController, paddingValues) }
