@@ -30,6 +30,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     CuratolistTheme {
-        Greeting("Android")
+
     }
 }
