@@ -40,7 +40,15 @@ fun AppSearchBar(
                 onExpandedChange = { isActive = it },
                 enabled = true,
                 placeholder = { if (query.isEmpty()) Text("Search Artworks") },
-                leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
+                leadingIcon = {
+                    if (isActive) {
+                        IconButton(onClick = { isActive = false }) {
+                            Icon(Icons.Filled.Close, contentDescription = "Close")
+                        }
+                    } else {
+                        Icon(Icons.Default.Search, contentDescription = "Search")
+                    }
+                },
                 trailingIcon = {
                     if (query.isNotEmpty()) {
                         IconButton(onClick = { onQueryChange("") }) {
