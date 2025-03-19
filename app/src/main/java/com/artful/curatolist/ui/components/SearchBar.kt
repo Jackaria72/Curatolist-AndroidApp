@@ -27,22 +27,25 @@ fun AppSearchBar(
     query: String,
     onQueryChange: (String) -> Unit,
     onSearch: () -> Unit,
+    isActive: Boolean,
+    onActiveChange: (Boolean) -> Unit
 ){
-    var isActive by remember { mutableStateOf(false) }
-
     SearchBar(
         inputField = {
             SearchBarDefaults.InputField(
                 query = query,
                 onQueryChange = onQueryChange,
-                onSearch = { onSearch() },
+                onSearch = {
+                    onSearch()
+                    onActiveChange(false)
+                           },
                 expanded = isActive,
-                onExpandedChange = { isActive = it },
+                onExpandedChange = { newActiveState -> onActiveChange(newActiveState) },
                 enabled = true,
                 placeholder = { if (query.isEmpty()) Text("Search Artworks") },
                 leadingIcon = {
                     if (isActive) {
-                        IconButton(onClick = { isActive = false }) {
+                        IconButton(onClick = { onActiveChange(false) }) {
                             Icon(Icons.Filled.Close, contentDescription = "Close")
                         }
                     } else {
@@ -60,7 +63,7 @@ fun AppSearchBar(
                 )
         },
         expanded = isActive,
-        onExpandedChange = { isActive = it },
+        onExpandedChange = { onActiveChange },
         modifier = Modifier
             .fillMaxWidth()
             .padding(0.dp),
