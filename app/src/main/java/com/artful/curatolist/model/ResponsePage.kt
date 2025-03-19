@@ -10,6 +10,8 @@ data class ResponsePage(
         val chicagoTotal: Int,
         val chicagoPageTotal: Int,
         val harvardTotal: Int,
-        val harvardPageTotal: Int
+        val harvardPageTotal: Int,
+        val combinedTotal: Int,
+        val combinedPageTotal: Int
     )
 }

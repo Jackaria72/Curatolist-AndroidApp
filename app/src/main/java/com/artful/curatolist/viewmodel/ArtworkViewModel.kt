@@ -22,6 +22,9 @@ class ArtworkViewModel: ViewModel() {
     private val _currentAppPage = mutableIntStateOf(0)
     val currentAppPage: State<Int> = _currentAppPage
 
+    private val _currentApiPage = mutableIntStateOf(1)
+    val currentApiPage: State<Int> = _currentApiPage
+
     private val _paginatedArtwork = MutableStateFlow(emptyList<Artwork>())
     val paginatedArtwork: StateFlow<List<Artwork>> = _paginatedArtwork
 
@@ -31,19 +34,20 @@ class ArtworkViewModel: ViewModel() {
     var pageLimit = 20
 
     init {
-        getArtList()
+        getArtList(_currentApiPage.intValue)
     }
 
-    fun getArtList(){
+    fun getArtList(page: Int){
         viewModelScope.launch {
             _isLoading.value = true
             val apiService = RetrofitInstance.api
             try {
-                val response = apiService.getArt()
+                val response = apiService.getArt(page)
 
                 response.let {
                     _art.value = it.artwork
                     _pageInfo.value = it.pageInfo
+                    _currentAppPage.intValue = 0
                     updatePaginatedList()
                     _isLoading.value = false
                 }
@@ -65,6 +69,9 @@ class ArtworkViewModel: ViewModel() {
         if((_currentAppPage.intValue + 1) * pageLimit < _art.value.size) {
             _currentAppPage.intValue = _currentAppPage.intValue.plus(1)
             updatePaginatedList()
+        } else if (_currentApiPage.intValue < (_pageInfo.value?.combinedPageTotal ?: 0)) {
+            _currentApiPage.intValue = _currentApiPage.intValue.plus(1)
+            getArtList(_currentApiPage.intValue)
         }
     }
 
@@ -72,6 +79,9 @@ class ArtworkViewModel: ViewModel() {
         if(_currentAppPage.intValue > 0) {
             _currentAppPage.intValue = _currentAppPage.intValue.minus(1)
             updatePaginatedList()
+        } else if (_currentApiPage.intValue > 1) {
+            _currentApiPage.intValue = _currentApiPage.intValue.minus(1)
+            getArtList(_currentApiPage.intValue)
         }
     }
 }
