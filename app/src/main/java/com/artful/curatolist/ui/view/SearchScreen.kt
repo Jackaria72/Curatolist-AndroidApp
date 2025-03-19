@@ -21,7 +21,7 @@ import com.artful.curatolist.viewmodel.ArtworkViewModel
 
 
 @Composable
-fun SearchScreen(viewModel: ArtworkViewModel = viewModel()) {
+fun SearchScreen(viewModel: ArtworkViewModel) {
     val allArtwork = viewModel.art.value
     val artwork = viewModel.paginatedArtwork.collectAsStateWithLifecycle().value
     val currentAppPage = viewModel.currentAppPage.value
