@@ -8,12 +8,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.artful.curatolist.model.Artwork
 import com.artful.curatolist.model.ResponsePage
-import com.artful.curatolist.network.RetrofitInstance
+import com.artful.curatolist.repository.CuratolistRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ArtworkViewModel: ViewModel() {
+class ArtworkViewModel(private  val repository: CuratolistRepository): ViewModel() {
     private val _art = mutableStateOf(emptyList<Artwork>())
     val art: State<List<Artwork>> = _art
     private val _pageInfo = mutableStateOf<ResponsePage.PageInfo?>(null)
@@ -40,10 +40,8 @@ class ArtworkViewModel: ViewModel() {
     fun getArtList(page: Int){
         viewModelScope.launch {
             _isLoading.value = true
-            val apiService = RetrofitInstance.api
             try {
-                val response = apiService.getArt(page)
-
+                val response = repository.getArt(page)
                 response.let {
                     _art.value = it.artwork
                     _pageInfo.value = it.pageInfo
