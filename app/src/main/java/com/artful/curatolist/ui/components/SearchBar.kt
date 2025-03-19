@@ -36,8 +36,8 @@ fun AppSearchBar(
                 query = query,
                 onQueryChange = onQueryChange,
                 onSearch = { onSearch() },
-                expanded = false,
-                onExpandedChange = {  },
+                expanded = isActive,
+                onExpandedChange = { isActive = it },
                 enabled = true,
                 placeholder = { if (query.isEmpty()) Text("Search Artworks") },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
@@ -51,8 +51,8 @@ fun AppSearchBar(
 
                 )
         },
-        expanded = false,
-        onExpandedChange = {  },
+        expanded = isActive,
+        onExpandedChange = { isActive = it },
         modifier = Modifier
             .fillMaxWidth()
             .padding(0.dp),
