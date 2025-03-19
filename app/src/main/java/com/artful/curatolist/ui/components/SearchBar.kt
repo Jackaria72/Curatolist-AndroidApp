@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 fun AppSearchBar(
     query: String,
     onQueryChange: (String) -> Unit,
-    onSearch: () -> Unit
+    onSearch: () -> Unit,
 ){
     var isActive by remember { mutableStateOf(false) }
 
@@ -41,7 +41,13 @@ fun AppSearchBar(
                 enabled = true,
                 placeholder = { if (query.isEmpty()) Text("Search Artworks") },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
-                trailingIcon = {  },
+                trailingIcon = {
+                    if (query.isNotEmpty()) {
+                        IconButton(onClick = { onQueryChange("") }) {
+                            Icon(Icons.Default.Close, contentDescription = "Clear")
+                        }
+                    }
+                },
 
                 )
         },
