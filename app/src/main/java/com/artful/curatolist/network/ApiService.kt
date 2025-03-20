@@ -9,6 +9,7 @@ interface ApiService
 {
     @GET("art")
     suspend fun getArt(
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("q") q: String?
     ): ResponsePage
 }
