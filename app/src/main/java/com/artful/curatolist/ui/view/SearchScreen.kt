@@ -19,6 +19,7 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,7 +39,7 @@ import com.artful.curatolist.viewmodel.ArtworkViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen(viewModel: ArtworkViewModel) {
+fun SearchScreen(viewModel: ArtworkViewModel, query: String) {
 
     val allArtwork = viewModel.art.value
     val artwork = viewModel.paginatedArtwork.collectAsStateWithLifecycle().value
@@ -49,6 +50,11 @@ fun SearchScreen(viewModel: ArtworkViewModel) {
 
     var query by viewModel.q
     var isSearchBarActive by remember { mutableStateOf(false) }
+
+    LaunchedEffect(query) {
+        viewModel.onQueryChange(query)
+        viewModel.getArtList(1, query)
+    }
 
     BackHandler(enabled = isSearchBarActive) {
         isSearchBarActive = false
