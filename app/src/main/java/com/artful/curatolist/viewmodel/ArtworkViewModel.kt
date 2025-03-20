@@ -38,9 +38,9 @@ class ArtworkViewModel(private  val repository: CuratolistRepository): ViewModel
     var pageLimit = 20
     val apiQuery = if (q.value.isEmpty()) null else q.value
 
-    init {
-        getArtList(_currentApiPage.intValue, null)
-    }
+//    init {
+//        getArtList(_currentApiPage.intValue, apiQuery)
+//    }
 
     fun getArtList(page: Int, q: String?){
         viewModelScope.launch {

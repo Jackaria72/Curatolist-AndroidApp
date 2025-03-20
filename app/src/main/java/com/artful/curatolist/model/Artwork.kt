@@ -1,5 +1,9 @@
 package com.artful.curatolist.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Artwork(
     val id : String,
     val title : String,
@@ -13,4 +17,4 @@ data class Artwork(
     val dimensions : String,
     val imageUrl : String,
     val source : String
-)
+) : Parcelable
