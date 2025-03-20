@@ -47,7 +47,7 @@ fun SearchScreen(viewModel: ArtworkViewModel) {
     val currentApiPage = viewModel.currentApiPage.value
     val pageInfo = viewModel.pageInfo.value
 
-    var query by remember { mutableStateOf("") }
+    var query by viewModel.q
     var isSearchBarActive by remember { mutableStateOf(false) }
 
     BackHandler(enabled = isSearchBarActive) {
@@ -61,9 +61,9 @@ fun SearchScreen(viewModel: ArtworkViewModel) {
     ) {
         AppSearchBar(
             query = query,
-            onQueryChange = { query = it },
-            onSearch = { viewModel.getArtList(1) },
-            isSearchBarActive,
+            onQueryChange = { viewModel.onQueryChange(it) },
+            onSearch = { viewModel.getArtList(1, query) },
+            isActive = isSearchBarActive,
             { isSearchBarActive = it } ,
         )
         Box(
