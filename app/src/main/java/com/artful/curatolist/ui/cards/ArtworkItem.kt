@@ -1,5 +1,6 @@
 package com.artful.curatolist.ui.cards
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,25 +20,26 @@ import androidx.compose.ui.unit.dp
 import com.artful.curatolist.model.Artwork
 
 @Composable
-fun ArtworkItem(artwork: Artwork) {
+fun ArtworkItem(artwork: Artwork, onClick: () -> Unit) {
     Card(
     modifier = Modifier
         .fillMaxWidth()
-        .padding(8.dp),
+        .padding(8.dp)
+        .clickable { onClick() },
     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
     shape = RoundedCornerShape(8.dp)
     ) {
 
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.Start,
-            modifier = Modifier
-                .padding(4.dp)
-                .fillMaxHeight()
-        ) {
-            Text(text = artwork.title)
-            Text(text = artwork.artist)
-            Text(text = artwork.classification)
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier
+                    .padding(4.dp)
+                    .fillMaxHeight()
+            ) {
+                Text(text = artwork.title)
+                Text(text = artwork.artist)
+                Text(text = artwork.classification)
             }
 
 
@@ -60,5 +62,5 @@ fun PreviewArtworkItem() {
         imageUrl = "test",
         source = "Harvard"
     )
-    ArtworkItem(artwork = sampleArtwork)
+
 }
