@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.artful.curatolist.model.Artwork
 import com.artful.curatolist.ui.cards.ArtworkItem
 import com.artful.curatolist.ui.components.AppSearchBar
@@ -39,7 +40,10 @@ import com.artful.curatolist.viewmodel.ArtworkViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen(viewModel: ArtworkViewModel, query: String) {
+fun SearchScreen(viewModel: ArtworkViewModel,
+                 query: String,
+                 navController: NavController,
+                 navigateToDetails: (Artwork) -> Unit) {
 
     val allArtwork = viewModel.art.value
     val artwork = viewModel.paginatedArtwork.collectAsStateWithLifecycle().value
@@ -89,8 +93,10 @@ fun SearchScreen(viewModel: ArtworkViewModel, query: String) {
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    items(items = artwork) { item: Artwork ->
-                        ArtworkItem(item)
+                    items(items = artwork) { singleArt ->
+                        ArtworkItem(
+                            artwork = singleArt,
+                            onClick = { navigateToDetails(singleArt) })
                     }
                 }
             }
