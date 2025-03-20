@@ -1,6 +1,7 @@
 package com.artful.curatolist.viewmodel
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -31,17 +32,21 @@ class ArtworkViewModel(private  val repository: CuratolistRepository): ViewModel
     private val _isLoading = mutableStateOf(false)
     val isLoading: State<Boolean> = _isLoading
 
+    private val _q = mutableStateOf("")
+    val q: MutableState<String> get() = _q
+
     var pageLimit = 20
+    val apiQuery = if (q.value.isEmpty()) null else q.value
 
     init {
-        getArtList(_currentApiPage.intValue)
+        getArtList(_currentApiPage.intValue, null)
     }
 
-    fun getArtList(page: Int){
+    fun getArtList(page: Int, q: String?){
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val response = repository.getArt(page)
+                val response = repository.getArt(page, q)
                 response.let {
                     _art.value = it.artwork
                     _pageInfo.value = it.pageInfo
@@ -69,7 +74,7 @@ class ArtworkViewModel(private  val repository: CuratolistRepository): ViewModel
             updatePaginatedList()
         } else if (_currentApiPage.intValue < (_pageInfo.value?.combinedPageTotal ?: 0)) {
             _currentApiPage.intValue = _currentApiPage.intValue.plus(1)
-            getArtList(_currentApiPage.intValue)
+            getArtList(_currentApiPage.intValue, apiQuery)
         }
     }
 
@@ -79,7 +84,12 @@ class ArtworkViewModel(private  val repository: CuratolistRepository): ViewModel
             updatePaginatedList()
         } else if (_currentApiPage.intValue > 1) {
             _currentApiPage.intValue = _currentApiPage.intValue.minus(1)
-            getArtList(_currentApiPage.intValue)
+            getArtList(_currentApiPage.intValue, apiQuery)
         }
     }
+
+    fun onQueryChange(newQuery: String) {
+        _q.value = newQuery
+    }
+
 }
