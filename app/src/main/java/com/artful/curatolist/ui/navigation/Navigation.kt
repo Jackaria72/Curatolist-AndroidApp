@@ -27,7 +27,8 @@ fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues
         composable(NavDestination.Home.route) { HomeScreen(navController, viewModel) }
         composable(
             route = NavDestination.Search.route,
-            arguments = listOf(navArgument("query") { defaultValue = "" })
+            arguments = listOf(navArgument("query") { defaultValue = "" },
+                navArgument("shouldTriggerSearch") { defaultValue = true })
         ) {
             backStackEntry ->
             val query = backStackEntry.arguments?.getString("query") ?: ""

@@ -55,9 +55,15 @@ fun SearchScreen(viewModel: ArtworkViewModel,
     var query by viewModel.q
     var isSearchBarActive by remember { mutableStateOf(false) }
 
-    LaunchedEffect(query) {
-        viewModel.onQueryChange(query)
-        viewModel.getArtList(1, query)
+    val shouldTriggerSearch = navController.currentBackStackEntry
+        ?.savedStateHandle
+        ?.get<Boolean>("shouldTriggerSearch") != false
+
+    LaunchedEffect(shouldTriggerSearch) {
+        if (shouldTriggerSearch) {
+            viewModel.onQueryChange(query)
+            viewModel.getArtList(1, query)
+        }
     }
 
     BackHandler(enabled = isSearchBarActive) {
