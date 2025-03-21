@@ -14,5 +14,6 @@ sealed class NavDestination(val title: String, val route: String, val icon: Imag
     object Lists: NavDestination(title = "My Lists", route = "lists_screen", icon = Icons.AutoMirrored.Filled.List)
 
     object Details: NavDestination(title = "Details", route = "details_screen", icon = null)
+    object Acknowledgements: NavDestination(title = "Acknowledgements", route = "acknowledgement_screen", icon = null)
 
 }
