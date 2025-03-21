@@ -12,10 +12,9 @@ import androidx.navigation.navArgument
 import com.artful.curatolist.model.Artwork
 import com.artful.curatolist.ui.view.ArtworkDetails
 import com.artful.curatolist.ui.view.HomeScreen
-import com.artful.curatolist.ui.view.ListScreen
+import com.artful.curatolist.ui.view.AcknowledgeScreen
 import com.artful.curatolist.ui.view.SearchScreen
 import com.artful.curatolist.viewmodel.ArtworkViewModel
-import com.google.gson.Gson
 
 @Composable
 fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues, viewModel: ArtworkViewModel) {
@@ -24,10 +23,13 @@ fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues
         startDestination = NavDestination.Home.route,
         modifier = Modifier.fillMaxSize().padding(paddingValues)
     ) {
+        //Home
         composable(NavDestination.Home.route) { HomeScreen(navController, viewModel) }
+        //Search
         composable(
             route = NavDestination.Search.route,
-            arguments = listOf(navArgument("query") { defaultValue = "" })
+            arguments = listOf(navArgument("query") { defaultValue = "" },
+                navArgument("shouldTriggerSearch") { defaultValue = true })
         ) {
             backStackEntry ->
             val query = backStackEntry.arguments?.getString("query") ?: ""
@@ -41,8 +43,9 @@ fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues
                 }
             )
         }
-        composable(route = NavDestination.Lists.route) { ListScreen() }
-
+        //Lists
+        composable(route = NavDestination.Lists.route) { AcknowledgeScreen() }
+        //Details
         composable(NavDestination.Details.route) {
             val artwork =
                 navController.previousBackStackEntry?.savedStateHandle?.get<Artwork>("artwork")
@@ -50,5 +53,7 @@ fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues
                 ArtworkDetails(artwork = artwork)
             }
         }
+        //Acknowledgments
+        composable(NavDestination.Acknowledgements.route) { AcknowledgeScreen() }
     }
 }
