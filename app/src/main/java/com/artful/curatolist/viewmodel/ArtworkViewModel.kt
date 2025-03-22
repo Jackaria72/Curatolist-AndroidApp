@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.artful.curatolist.model.Artwork
 import com.artful.curatolist.model.ResponsePage
+import com.artful.curatolist.model.SearchQueries
 import com.artful.curatolist.repository.CuratolistRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -42,11 +43,19 @@ class ArtworkViewModel(private  val repository: CuratolistRepository): ViewModel
 //        getArtList(_currentApiPage.intValue, apiQuery)
 //    }
 
-    fun getArtList(page: Int, q: String?){
+
+    fun getArtList(page: Int, searchQueries: SearchQueries){
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val response = repository.getArt(page, q)
+                val response = repository.getArt(
+                    page = page,
+                    search = searchQueries.search,
+                    source = searchQueries.source,
+                    filterType = searchQueries.filterType,
+                    filterValue = searchQueries.filterValue,
+                    sort = searchQueries.sort
+                )
                 response.let {
                     _art.value = it.artwork
                     _pageInfo.value = it.pageInfo
@@ -68,23 +77,23 @@ class ArtworkViewModel(private  val repository: CuratolistRepository): ViewModel
         _paginatedArtwork.value = _art.value.subList(start, end)
     }
 
-    fun nextPage() {
+    fun nextPage(searchQueries: SearchQueries) {
         if((_currentAppPage.intValue + 1) * pageLimit < _art.value.size) {
             _currentAppPage.intValue = _currentAppPage.intValue.plus(1)
             updatePaginatedList()
         } else if (_currentApiPage.intValue < (_pageInfo.value?.combinedPageTotal ?: 0)) {
             _currentApiPage.intValue = _currentApiPage.intValue.plus(1)
-            getArtList(_currentApiPage.intValue, apiQuery)
+            getArtList(_currentApiPage.intValue, searchQueries)
         }
     }
 
-    fun previousPage() {
+    fun previousPage(searchQueries: SearchQueries) {
         if(_currentAppPage.intValue > 0) {
             _currentAppPage.intValue = _currentAppPage.intValue.minus(1)
             updatePaginatedList()
         } else if (_currentApiPage.intValue > 1) {
             _currentApiPage.intValue = _currentApiPage.intValue.minus(1)
-            getArtList(_currentApiPage.intValue, apiQuery)
+            getArtList(_currentApiPage.intValue, searchQueries)
         }
     }
 

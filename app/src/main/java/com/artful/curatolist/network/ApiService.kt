@@ -10,6 +10,9 @@ interface ApiService
     @GET("art")
     suspend fun getArt(
         @Query("page") page: Int,
-        @Query("q") q: String?
+        @Query("source") source: String?,
+        @Query("q") q: String?,
+        @Query("sort") sort: String?,
+        @Query("filter") filter: String?
     ): ResponsePage
 }
