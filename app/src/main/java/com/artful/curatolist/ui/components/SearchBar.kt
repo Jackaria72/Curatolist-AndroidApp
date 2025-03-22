@@ -28,7 +28,8 @@ fun AppSearchBar(
     onQueryChange: (String) -> Unit,
     onSearch: () -> Unit,
     isActive: Boolean,
-    onActiveChange: (Boolean) -> Unit
+    onActiveChange: (Boolean) -> Unit,
+    content: @Composable (() -> Unit)? = null
 ){
     SearchBar(
         inputField = {
@@ -67,6 +68,6 @@ fun AppSearchBar(
         modifier = Modifier
             .fillMaxWidth()
             .padding(0.dp),
-        content = {},
+        content = { content?.invoke() },
     )
 }
