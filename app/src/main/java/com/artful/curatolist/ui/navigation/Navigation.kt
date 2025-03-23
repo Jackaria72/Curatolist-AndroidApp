@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
@@ -13,15 +14,20 @@ import com.artful.curatolist.model.Artwork
 import com.artful.curatolist.ui.view.ArtworkDetails
 import com.artful.curatolist.ui.view.HomeScreen
 import com.artful.curatolist.ui.view.AcknowledgeScreen
+import com.artful.curatolist.ui.view.ListDetailsScreen
+import com.artful.curatolist.ui.view.ListScreen
 import com.artful.curatolist.ui.view.SearchScreen
 import com.artful.curatolist.viewmodel.ArtworkViewModel
+import com.artful.curatolist.viewmodel.ListViewModel
 
 @Composable
-fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues, viewModel: ArtworkViewModel) {
+fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues, viewModel: ArtworkViewModel, listViewModel: ListViewModel) {
     NavHost(
         navController = navController,
         startDestination = NavDestination.Home.route,
-        modifier = Modifier.fillMaxSize().padding(paddingValues)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
     ) {
         //Home
         composable(NavDestination.Home.route) { HomeScreen(navController, viewModel) }
@@ -44,7 +50,19 @@ fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues
             )
         }
         //Lists
-        composable(route = NavDestination.Lists.route) { AcknowledgeScreen() }
+        composable(route = NavDestination.Lists.route) {
+            ListScreen(
+                listViewModel = listViewModel,
+                navigateToListDetails = { listId ->
+                    navController.navigate("list_details/$listId")
+                }) }
+        composable(
+            route = "list_details/{listId}",
+            arguments = listOf(navArgument("listId")  { type = NavType.LongType})
+        ) {
+            backstackEntry -> val listId = backstackEntry.arguments?.getLong("listId") ?: -1L
+            ListDetailsScreen(listId = listId, listViewModel = listViewModel)
+        }
         //Details
         composable(NavDestination.Details.route) {
             val artwork =
