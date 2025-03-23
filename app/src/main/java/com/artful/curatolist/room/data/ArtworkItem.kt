@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "artwork_items")
 data class ArtworkItem(
-    @PrimaryKey(autoGenerate = true)
-    val artworkId : Long,
+    @PrimaryKey(autoGenerate = false)
+    val artworkId : String,
     val title : String,
     val artist : String,
     val date : String,

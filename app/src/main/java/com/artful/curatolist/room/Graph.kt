@@ -1,6 +1,9 @@
 package com.artful.curatolist.room
 
 import android.content.Context
+import android.util.Log
+import androidx.room.RoomDatabase.Callback
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.artful.curatolist.room.database.CuratolistDatabase
 import com.artful.curatolist.room.repository.RoomRepository
 
@@ -11,7 +14,8 @@ object Graph {
     val repository by lazy {
         RoomRepository(
             artworkListDao = db.artworkListDao(),
-            artworkItemDao = db.artworkItemDao()
+            artworkItemDao = db.artworkItemDao(),
+            joinDao = db.joinDao()
         )
     }
 

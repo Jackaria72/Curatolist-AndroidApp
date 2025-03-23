@@ -5,7 +5,7 @@ import com.artful.curatolist.room.data.ArtworkItem
 
 fun Artwork.toArtworkItem(listId: Long): ArtworkItem {
     return ArtworkItem(
-        artworkId = 0, // Room will auto-generate this ID
+        artworkId = this.id,
         title = this.title,
         artist = this.artist,
         date = this.date,

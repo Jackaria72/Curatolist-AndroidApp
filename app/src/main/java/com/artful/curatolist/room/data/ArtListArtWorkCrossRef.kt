@@ -16,5 +16,5 @@ import androidx.room.Index
 )
 data class ArtListArtWorkCrossRef(
     val listId: Long,
-    val artworkId: Long
+    val artworkId: String
 )
