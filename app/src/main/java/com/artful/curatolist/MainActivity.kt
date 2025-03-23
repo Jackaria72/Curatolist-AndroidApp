@@ -11,12 +11,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.artful.curatolist.room.Graph
 import com.artful.curatolist.ui.AppRoot
 import com.artful.curatolist.ui.theme.CuratolistTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Graph.provide(this)
         enableEdgeToEdge()
         setContent {
             CuratolistTheme {
