@@ -37,6 +37,12 @@ fun TopBar(navController: NavController) {
                 }) {
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                 }
+            } else if (currentDestination?.startsWith("list_details") == true) {
+                IconButton(onClick = {
+                    navController.popBackStack()
+                }) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                }
             }
         },
         actions = {
@@ -51,7 +57,7 @@ fun TopBar(navController: NavController) {
                     text = { Text("Acknowledgments") },
                     onClick = {
                         expanded.value = false
-                        navController.navigate("ackno_screen")
+                        navController.navigate("acknowledgement_screen")
                     }
                 )
             }
