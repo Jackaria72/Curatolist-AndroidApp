@@ -3,6 +3,7 @@ package com.artful.curatolist.ui.navigation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -21,7 +22,7 @@ import com.artful.curatolist.viewmodel.ArtworkViewModel
 import com.artful.curatolist.viewmodel.ListViewModel
 
 @Composable
-fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues, viewModel: ArtworkViewModel, listViewModel: ListViewModel) {
+fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues, viewModel: ArtworkViewModel, listViewModel: ListViewModel, snackbarHostState: SnackbarHostState) {
     NavHost(
         navController = navController,
         startDestination = NavDestination.Home.route,
@@ -68,7 +69,7 @@ fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues
             val artwork =
                 navController.previousBackStackEntry?.savedStateHandle?.get<Artwork>("artwork")
             if (artwork != null) {
-                ArtworkDetails(artwork = artwork)
+                ArtworkDetails(navController = navController, listViewModel = listViewModel, snackbarHostState = snackbarHostState)
             }
         }
         //Acknowledgments
