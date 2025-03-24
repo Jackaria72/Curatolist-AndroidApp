@@ -64,7 +64,7 @@ fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues
             arguments = listOf(navArgument("listId")  { type = NavType.LongType})
         ) {
             backstackEntry -> val listId = backstackEntry.arguments?.getLong("listId") ?: -1L
-            ListDetailsScreen(listId = listId, listViewModel = listViewModel, snackbarHostState = snackbarHostState)
+            ListDetailsScreen(listId = listId, listViewModel = listViewModel)
         }
         //Details
         composable(NavDestination.Details.route) {
