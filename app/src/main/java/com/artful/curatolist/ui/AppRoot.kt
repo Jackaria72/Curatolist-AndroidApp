@@ -16,7 +16,6 @@ import com.artful.curatolist.repository.CuratolistRepository
 import com.artful.curatolist.room.Graph
 import com.artful.curatolist.room.dao.ArtworkListDao
 import com.artful.curatolist.room.database.CuratolistDatabase
-//import com.artful.curatolist.room.repository.RoomRepository
 import com.artful.curatolist.ui.navigation.AppNavigation
 import com.artful.curatolist.ui.navigation.components.AppBottomNavigation
 import com.artful.curatolist.ui.navigation.components.TopBar
@@ -28,7 +27,9 @@ import com.artful.curatolist.viewmodel.ListViewModelFactory
 @Composable
 fun AppRoot() {
 
+
     val snackbarHostState = remember { SnackbarHostState() }
+
     val apiService = RetrofitInstance.api
 
     val repository = remember { CuratolistRepository(apiService) }
@@ -49,4 +50,5 @@ fun AppRoot() {
         bottomBar = { AppBottomNavigation(navController) }
     ) { paddingValues ->
         AppNavigation(navController, paddingValues, viewModel, listViewModel, snackbarHostState) }
+
 }

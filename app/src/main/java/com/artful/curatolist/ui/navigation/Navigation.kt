@@ -23,6 +23,7 @@ import com.artful.curatolist.viewmodel.ListViewModel
 
 @Composable
 fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues, viewModel: ArtworkViewModel, listViewModel: ListViewModel, snackbarHostState: SnackbarHostState) {
+
     NavHost(
         navController = navController,
         startDestination = NavDestination.Home.route,

@@ -1,7 +1,6 @@
 package com.artful.curatolist.ui.view
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -118,7 +117,7 @@ fun ArtworkDetails(navController: NavController, listViewModel: ListViewModel, s
         if (artwork == null) {
         Text("Artwork not found")
         }
-
+        
         Scaffold(
             floatingActionButton = {
             FloatingActionButton(
@@ -166,3 +165,4 @@ fun ArtworkDetails(navController: NavController, listViewModel: ListViewModel, s
         )
     }
 }
+
