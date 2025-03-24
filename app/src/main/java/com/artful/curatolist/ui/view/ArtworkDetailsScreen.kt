@@ -1,6 +1,8 @@
 package com.artful.curatolist.ui.view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,14 +10,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -44,6 +50,7 @@ import com.artful.curatolist.R
 import com.artful.curatolist.model.Artwork
 import com.artful.curatolist.ui.cards.ListItem
 import com.artful.curatolist.ui.components.ArtDetailContent
+import com.artful.curatolist.ui.view.dialogue.CreateListDialog
 import com.artful.curatolist.viewmodel.ListViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -61,6 +68,7 @@ fun ArtworkDetails(navController: NavController, listViewModel: ListViewModel, s
         ?.savedStateHandle
         ?.get<Artwork>("artwork")
     val listState = listViewModel.state
+    var showDialog by remember { mutableStateOf(false) }
 
     if (showBottomSheet) {
     ModalBottomSheet(
@@ -68,7 +76,27 @@ fun ArtworkDetails(navController: NavController, listViewModel: ListViewModel, s
         onDismissRequest = { showBottomSheet = false },
 
     ) {
-        Column {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            Button(
+                onClick = { showDialog = true },
+
+                ) {
+                Icon(
+                    Icons.Filled.AddCircle,
+                    contentDescription = "Create New Exhibit"
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Create New Exhibit")
+            }
+        }
+        Box(
+            modifier = Modifier.weight(1f),
+            contentAlignment = Alignment.TopCenter
+        ) {
             listState.items.forEach { list ->
                 ListItem(
                     list = list,
@@ -80,8 +108,10 @@ fun ArtworkDetails(navController: NavController, listViewModel: ListViewModel, s
                         }
                     }
                 )
+                HorizontalDivider()
             }
         }
+
     }
 
     }
@@ -123,28 +153,16 @@ fun ArtworkDetails(navController: NavController, listViewModel: ListViewModel, s
             }
         }
     }
+    if (showDialog) {
+        CreateListDialog(
+            onDismiss = { showDialog = false },
+            onCreate = { name, icon ->
+                listViewModel.addList(name, icon)
+                showDialog = false
+                CoroutineScope(Dispatchers.Main).launch {
+                    snackbarHostState.showSnackbar("Exhibit: $name Created!")
+                }
+            }
+        )
+    }
 }
-
-
-
-
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewArtworkDetails() {
-//    val sampleArtwork = Artwork(
-//        id = "1_TST",
-//        title = "Starry Night",
-//        artist = "Vincent van Gogh",
-//        date = "1890",
-//        description = "test",
-//        medium = "test",
-//        technique = "test",
-//        classification = "painting",
-//        culturalOrigin = "test",
-//        dimensions = "test",
-//        imageUrl = "https://example.com/image.jpg",
-//        source = "Harvard"
-//    )
-//    ArtworkDetails(artwork = sampleArtwork)
-//}
