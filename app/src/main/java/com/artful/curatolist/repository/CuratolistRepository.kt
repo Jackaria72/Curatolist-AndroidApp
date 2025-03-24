@@ -1,11 +1,8 @@
 package com.artful.curatolist.repository
 
 import android.util.Log
-import androidx.compose.ui.text.toLowerCase
 import com.artful.curatolist.model.ResponsePage
-import com.artful.curatolist.model.SearchQueries
 import com.artful.curatolist.network.ApiService
-import java.util.Locale
 
 class CuratolistRepository(private val apiService: ApiService) {
     suspend fun getArt(page: Int, search: String, source: String, filterType: String, filterValue: String, sort: String): ResponsePage {

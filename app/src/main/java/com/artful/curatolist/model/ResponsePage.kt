@@ -1,7 +1,5 @@
 package com.artful.curatolist.model
 
-import androidx.compose.foundation.pager.PageInfo
-
 data class ResponsePage(
     val pageInfo: PageInfo,
     val artwork: List<Artwork>

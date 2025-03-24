@@ -1,6 +1,5 @@
 package com.artful.curatolist.ui
 
-import android.app.Application
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -8,14 +7,11 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.artful.curatolist.network.RetrofitInstance
 import com.artful.curatolist.repository.CuratolistRepository
 import com.artful.curatolist.room.Graph
-import com.artful.curatolist.room.dao.ArtworkListDao
-import com.artful.curatolist.room.database.CuratolistDatabase
 import com.artful.curatolist.ui.navigation.AppNavigation
 import com.artful.curatolist.ui.navigation.components.AppBottomNavigation
 import com.artful.curatolist.ui.navigation.components.TopBar
