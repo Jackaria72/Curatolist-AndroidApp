@@ -1,16 +1,12 @@
 package com.artful.curatolist.ui.cards
 
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -25,11 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import coil3.request.error
 import coil3.request.placeholder
@@ -55,7 +49,7 @@ fun ArtworkItem(artwork: Artwork, onClick: () -> Unit) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(artwork.imageUrl)
-                    .error(R.drawable.ic_error)
+                    .error(R.drawable.ic_no_art)
                     .placeholder(R.drawable.ic_placeholder)
                     .build(),
                 contentDescription = "Artwork Image",
@@ -81,6 +75,17 @@ fun ArtworkItem(artwork: Artwork, onClick: () -> Unit) {
                     text = artwork.classification,
                     style = MaterialTheme.typography.bodySmall
                 )
+                if (artwork.source.contains("Harvard")) {
+                    Text(
+                        text = "H",
+                        color = Color.Blue
+                    )
+                } else if (artwork.source.contains("Chicago") ) {
+                    Text(
+                        text = "C",
+                        color = Color.Red
+                    )
+                }
             }
         }
     }
@@ -93,7 +98,7 @@ fun PreviewArtworkItem() {
         title = "Starry Night",
         artist = "Vincent van Gogh",
         date = "1890",
-        period = "test",
+        description = "test",
         medium = "test",
         technique = "test",
         classification = "painting",

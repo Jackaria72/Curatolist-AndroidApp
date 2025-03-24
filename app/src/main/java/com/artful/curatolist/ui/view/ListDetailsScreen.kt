@@ -13,7 +13,8 @@ import com.artful.curatolist.viewmodel.util.toArtwork
 @Composable
 fun ListDetailsScreen(
     listId: Long,
-    listViewModel: ListViewModel
+    listViewModel: ListViewModel,
+    snackbarHostState: SnackbarHostState
 ){
     LaunchedEffect(listId) {
         listViewModel.getListWithItems(listId)
@@ -22,12 +23,12 @@ fun ListDetailsScreen(
     val listDetailsState = listViewModel.listDetailsState
 
     LazyColumn {
-        item{ Text(text = listDetailsState.list.list.listName)}
+        item{ Text(text = listDetailsState.list.list.listName) }
         items(listDetailsState.list.items) { item ->
             val art = item.toArtwork()
             ArtworkItem(
                 artwork = art,
-                onClick = {  }
+                onClick = { }
             )
         }
     }
