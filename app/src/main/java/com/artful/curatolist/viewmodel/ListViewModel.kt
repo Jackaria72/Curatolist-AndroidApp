@@ -26,7 +26,7 @@ class ListViewModel(private val repository: RoomRepository = Graph.repository) :
     init {
         getLists()
     }
-
+    
     fun getLists(){
         viewModelScope.launch {
             repository.getAllLists.collectLatest {

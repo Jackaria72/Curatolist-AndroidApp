@@ -2,14 +2,9 @@ package com.artful.curatolist.ui.view
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.artful.curatolist.room.data.ArtworkItem
 import com.artful.curatolist.ui.cards.ArtworkItem
 import com.artful.curatolist.viewmodel.ListViewModel
 import com.artful.curatolist.viewmodel.util.toArtwork
@@ -35,10 +30,4 @@ fun ListDetailsScreen(
             )
         }
     }
-
-
-
-
-
-
 }
