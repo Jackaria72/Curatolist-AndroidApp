@@ -49,7 +49,6 @@ fun AppRoot() {
         topBar = { TopBar(navController) },
         bottomBar = { AppBottomNavigation(navController) }
     ) { paddingValues ->
-
         AppNavigation(navController, paddingValues, viewModel, listViewModel, snackbarHostState) }
 
 }

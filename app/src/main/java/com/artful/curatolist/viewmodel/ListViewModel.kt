@@ -26,7 +26,7 @@ class ListViewModel(private val repository: RoomRepository = Graph.repository) :
     init {
         getLists()
     }
-    
+
     fun getLists(){
         viewModelScope.launch {
             repository.getAllLists.collectLatest {
@@ -53,7 +53,18 @@ class ListViewModel(private val repository: RoomRepository = Graph.repository) :
             )
         }
     }
+
+    fun addList(listName: String, icon: String) {
+        viewModelScope.launch {
+            val newExhibit = ArtworkList(
+                listName = listName,
+                icon = icon
+            )
+            repository.insertList(newExhibit)
+        }
+    }
 }
+
 data class ListState(
     val items: List<ArtworkList> = emptyList<ArtworkList>()
 )
