@@ -66,45 +66,32 @@ fun ArtDetailContent(artwork: Artwork?) {
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {
-            Text(
-                text = "Artist: ${artwork?.artist}",
-                style = MaterialTheme.typography.bodyLarge
-            )
+
+            DetailsTextFormat("Artist:", "${artwork?.artist}")
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = "Classification: ${artwork?.classification}",
-                style = MaterialTheme.typography.bodyLarge
-            )
+            DetailsTextFormat("Description", "${artwork?.description}")
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = "Date: ${artwork?.date}",
-                style = MaterialTheme.typography.bodyLarge
-            )
+            DetailsTextFormat("Classification:", "${artwork?.classification}")
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = "Medium: ${artwork?.medium}",
-                style = MaterialTheme.typography.bodyLarge
-            )
+            DetailsTextFormat("Date:", "${artwork?.date}")
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = "Dimensions: ${artwork?.dimensions}",
-                style = MaterialTheme.typography.bodyLarge
-            )
+            DetailsTextFormat("Medium:", "${artwork?.medium}")
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = "Cultural Origin: ${artwork?.culturalOrigin}",
-                style = MaterialTheme.typography.bodyLarge
-            )
+            DetailsTextFormat("Dimensions:", "${artwork?.dimensions}")
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            DetailsTextFormat("Cultural Origin:", "${artwork?.culturalOrigin}")
         }
     }
 }
@@ -126,4 +113,14 @@ fun PreviewArtDetails(){
         source = "This Project"
     )
     ArtDetailContent(testArt)
+}
+@Composable
+fun DetailsTextFormat(label: String, content: String) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(text = label,
+            style = MaterialTheme.typography.labelMedium)
+        Text(text = content,
+            style = MaterialTheme.typography.bodyLarge
+            )
+    }
 }
