@@ -52,11 +52,15 @@ fun HomeScreen(navController: NavController, viewModel: ArtworkViewModel) {
         Row(modifier = Modifier.fillMaxWidth().padding(10.dp)) {
             Text(
                 text = """Hello and welcome to Curatolist! You're very own Art Gallery in your pocket!
-            |Browse Artworks from multiple museums and add them to your very own Exhibits it your Gallery!
+            |Browse Artworks from multiple museums, from the comfort of your own home or on the go! 
+            |Add them to your very own Exhibits in your own personal Gallery!
         """.trimMargin(),
                 style = MaterialTheme.typography.bodyLarge
             )
 
         }
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Text(text = "Go  forth and Curatolist!")
     }
 }
