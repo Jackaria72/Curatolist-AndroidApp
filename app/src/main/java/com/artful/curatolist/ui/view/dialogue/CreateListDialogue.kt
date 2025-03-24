@@ -14,6 +14,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -29,19 +30,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.artful.curatolist.viewmodel.util.getIconResId
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun CreateListDialog(
     onDismiss: () -> Unit,
-    onCreate: (String, String) -> Unit
+    onCreate: (String, String) -> Unit,
+    snackbarHostState: SnackbarHostState
 ) {
     var listName by remember { mutableStateOf("") }
     var selectedIcon by remember { mutableStateOf<String?>(null) }
     var expanded by remember { mutableStateOf(false) }
 
     val icons = listOf(
-        "star" to "Star",
-        "heart" to "Heart")
+        "canvas" to "Canvas",
+        "frame" to "Frame")
 
     Dialog(onDismissRequest = onDismiss) {
         Surface(
@@ -111,9 +116,13 @@ fun CreateListDialog(
 
                     TextButton(
                         onClick = {
-                            if (listName.isNotEmpty()) {
+                            if (listName.isNotEmpty() && selectedIcon!!.isNotEmpty()) {
                                 onCreate(listName, selectedIcon!!)
                                 onDismiss()
+                            } else {
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    snackbarHostState.showSnackbar("Please select a Name and Icon for your Exhibit")
+                                }
                             }
                         }
                     ) {

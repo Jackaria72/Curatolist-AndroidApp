@@ -67,7 +67,8 @@ fun ListScreen(
                     CoroutineScope(Dispatchers.Main).launch {
                         snackbarHostState.showSnackbar("Exhibit: $name Created!")
                     }
-                }
+                },
+                snackbarHostState = snackbarHostState
             )
         }
     }
