@@ -1,6 +1,11 @@
 package com.artful.curatolist.ui.cards
 
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,14 +16,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,12 +42,25 @@ import com.artful.curatolist.R
 import com.artful.curatolist.model.Artwork
 
 @Composable
-fun ArtworkItem(artwork: Artwork, onClick: () -> Unit) {
+fun ArtworkItem(
+    artwork: Artwork,
+    onClick: () -> Unit,
+    isEditMode: Boolean,
+    onDelete: () -> Unit
+) {
+    val rotation by animateFloatAsState(
+        targetValue = if (isEditMode) 2f else 0f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 500, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
     Card(
     modifier = Modifier
         .fillMaxWidth()
         .padding(8.dp)
-        .clickable { onClick() },
+        .clickable { onClick() }
+        .rotate(rotation),
     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
     shape = RoundedCornerShape(8.dp)
     ) {
@@ -87,6 +111,14 @@ fun ArtworkItem(artwork: Artwork, onClick: () -> Unit) {
                     )
                 }
             }
+            if (isEditMode) {
+                IconButton(onClick = onDelete) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Delete"
+                    )
+                }
+            }
         }
     }
 }
@@ -107,6 +139,6 @@ fun PreviewArtworkItem() {
         imageUrl = "https://picsum.photos/200/300",
         source = "Harvard"
     )
-    ArtworkItem(sampleArtwork, {  })
+//    ArtworkItem(sampleArtwork, {  })
 
 }
