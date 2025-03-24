@@ -36,7 +36,7 @@ fun ArtDetailContent(artwork: Artwork?) {
             model = ImageRequest.Builder(LocalContext.current)
                 .data(artwork?.imageUrl)
                 .crossfade(true)
-                .error(R.drawable.ic_error)
+                .error(R.drawable.ic_no_image)
                 .placeholder(R.drawable.ic_placeholder)
                 .build(),
             contentDescription = "Artwork Image",
