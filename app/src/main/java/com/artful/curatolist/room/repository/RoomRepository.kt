@@ -6,6 +6,8 @@ import com.artful.curatolist.room.data.ArtworkItem
 import com.artful.curatolist.room.dao.ArtworkItemDao
 import com.artful.curatolist.room.data.ArtworkList
 import com.artful.curatolist.room.dao.ArtworkListDao
+import com.artful.curatolist.room.dao.ItemListJoinDao
+import com.artful.curatolist.room.data.ArtListArtWorkCrossRef
 import com.artful.curatolist.room.data.ArtworkListWithArt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +16,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 class RoomRepository(
     private val artworkListDao: ArtworkListDao,
-    private val artworkItemDao: ArtworkItemDao
+    private val artworkItemDao: ArtworkItemDao,
+    private val joinDao: ItemListJoinDao
 ) {
     var getAllLists = artworkListDao.getAllLists()
 
@@ -26,6 +29,9 @@ class RoomRepository(
 
     suspend fun insertArtworkItem(item: ArtworkItem) {
         artworkItemDao.insert(item)
+    }
+    suspend fun insertArtworkItemToList(artListArtWorkCrossRef: ArtListArtWorkCrossRef) {
+        joinDao.insertArtworkItemToList(artListArtWorkCrossRef)
     }
 
     suspend fun deleteList(list: ArtworkList) {

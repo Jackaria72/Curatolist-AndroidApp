@@ -12,6 +12,7 @@ import com.artful.curatolist.room.data.ArtworkItem
 import com.artful.curatolist.room.dao.ArtworkItemDao
 import com.artful.curatolist.room.data.ArtworkList
 import com.artful.curatolist.room.dao.ArtworkListDao
+import com.artful.curatolist.room.dao.ItemListJoinDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
@@ -25,6 +26,7 @@ import kotlinx.coroutines.launch
 abstract class CuratolistDatabase: RoomDatabase() {
     abstract fun artworkListDao(): ArtworkListDao
     abstract fun artworkItemDao(): ArtworkItemDao
+    abstract fun joinDao(): ItemListJoinDao
 
     private val databaseScope = CoroutineScope(Dispatchers.IO)
 
@@ -41,14 +43,13 @@ abstract class CuratolistDatabase: RoomDatabase() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
                         Log.d("Curatolist Database", "Database Created!!!")
-                        db.execSQL("INSERT INTO artwork_list (listName, icon, isDefault) VALUES ('Favorites', 'heart', 1)")
+                        db.execSQL("INSERT INTO artwork_lists (listName, icon, isDefault) VALUES ('Favorites', 'heart', 1)")
                     }
                 }).fallbackToDestructiveMigration()
                     .build()
                     INSTANCE = instance
                 instance
             }
-            }
         }
-
+    }
 }
