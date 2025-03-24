@@ -1,8 +1,11 @@
 package com.artful.curatolist.room.data
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "artwork_items")
 data class ArtworkItem(
     @PrimaryKey(autoGenerate = false)
@@ -19,4 +22,4 @@ data class ArtworkItem(
     val imageUrl : String,
     val source : String,
     val listId: Long
-)
+) : Parcelable

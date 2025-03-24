@@ -161,7 +161,7 @@ fun ArtworkDetails(navController: NavController, listViewModel: ListViewModel, s
                 CoroutineScope(Dispatchers.Main).launch {
                     snackbarHostState.showSnackbar("Exhibit: $name Created!")
                 }
-            }
+            }, snackbarHostState
         )
     }
 }

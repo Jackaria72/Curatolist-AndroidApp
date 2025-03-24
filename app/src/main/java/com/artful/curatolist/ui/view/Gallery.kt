@@ -25,8 +25,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+//See All Lists
 @Composable
-fun ListScreen(
+fun GalleryScreen(
     listViewModel: ListViewModel,
     navigateToListDetails: (Long) -> Unit,
     snackbarHostState: SnackbarHostState
