@@ -27,7 +27,8 @@ fun TopBar(navController: NavController) {
     TopAppBar(
         title = { Text("Curatolist") },
         navigationIcon = {
-            if (currentDestination == "details_screen" || currentDestination == "acknowledgement_screen") {
+            if (currentDestination == "details_screen" || currentDestination == "acknowledgement_screen" ||
+                currentDestination == "exhibit_art_details") {
                 IconButton(onClick = {
                     navController.previousBackStackEntry?.savedStateHandle?.set(
                         "shouldTriggerSearch",
