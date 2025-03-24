@@ -13,14 +13,23 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -33,6 +42,8 @@ import coil3.request.error
 import coil3.request.placeholder
 import com.artful.curatolist.R
 import com.artful.curatolist.model.Artwork
+import com.artful.curatolist.ui.cards.ListItem
+import com.artful.curatolist.ui.components.ArtDetailContent
 import com.artful.curatolist.viewmodel.ListViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,23 +54,46 @@ import kotlinx.coroutines.launch
 fun ArtworkDetails(navController: NavController, listViewModel: ListViewModel, snackbarHostState: SnackbarHostState) {
 
     val scrollState = rememberScrollState()
+    val sheetState = rememberModalBottomSheetState()
+    var showBottomSheet by remember { mutableStateOf(false) }
     val artwork = navController
-        .currentBackStackEntry
-        ?.arguments
-        ?.getParcelable<Artwork>("artwork")
+        .previousBackStackEntry
+        ?.savedStateHandle
+        ?.get<Artwork>("artwork")
+    val listState = listViewModel.state
 
-    // Handle the case where artwork is null
-    if (artwork == null) {
-        // Show an error message or navigate back
-        Text("Artwork not found")
-        return
+    if (showBottomSheet) {
+    ModalBottomSheet(
+        sheetState = sheetState,
+        onDismissRequest = { showBottomSheet = false },
+
+    ) {
+        Column {
+            listState.items.forEach { list ->
+                ListItem(
+                    list = list,
+                    onClick = {
+                        listViewModel.addArtToList(artwork!!, list.listId)
+                        showBottomSheet = false
+                        CoroutineScope(Dispatchers.Main).launch {
+                            snackbarHostState.showSnackbar("Artwork added to: ${list.listName}")
+                        }
+                    }
+                )
+            }
+        }
     }
 
-    Scaffold(
-        floatingActionButton = {
+    }
+        if (artwork == null) {
+        Text("Artwork not found")
+        }
+
+        Scaffold(
+            floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    listViewModel.addToFavourites(artwork)
+                    listViewModel.addArtToList(artwork!!, 1L)
                     CoroutineScope(Dispatchers.Main).launch {
                         snackbarHostState.showSnackbar("Artwork Added to Favourites")
                     }
@@ -69,97 +103,31 @@ fun ArtworkDetails(navController: NavController, listViewModel: ListViewModel, s
             }
         }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues) // Respect root Scaffold padding
-                .padding(16.dp)
-        ) {
-
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(scrollState)
+                    .padding(paddingValues)
                     .padding(16.dp),
+        ) {
+            ArtDetailContent(artwork)
+
+
+            Spacer(modifier = Modifier.height(50.dp))
+
+            Button(
+                onClick = { showBottomSheet = true },
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(artwork.imageUrl)
-                        .crossfade(true)
-                        .error(R.drawable.ic_error)
-                        .placeholder(R.drawable.ic_placeholder)
-                        .build(),
-                    contentDescription = "Artwork Image",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .clip(RoundedCornerShape(12.dp)),
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        text = artwork.title,
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp)
-                ) {
-                    Text(
-                        text = "Artist: ${artwork.artist}",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Text(
-                        text = "Classification: ${artwork.classification}",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Text(
-                        text = "Date: ${artwork.date}",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Text(
-                        text = "Medium: ${artwork.medium}",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Text(
-                        text = "Dimensions: ${artwork.dimensions}",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Text(
-                        text = "Cultural Origin: ${artwork.culturalOrigin}",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
+                Text("Add to your Gallery")
             }
         }
     }
 }
+
+
+
+
 
 //@Preview(showBackground = true)
 //@Composable
