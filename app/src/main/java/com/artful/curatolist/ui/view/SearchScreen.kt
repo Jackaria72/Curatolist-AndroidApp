@@ -25,9 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.artful.curatolist.model.Artwork
 import com.artful.curatolist.model.FilterType
-import com.artful.curatolist.model.FilterType.Companion.filterTypes
 import com.artful.curatolist.model.SearchQueries
-
 import com.artful.curatolist.ui.cards.ArtworkItem
 import com.artful.curatolist.ui.components.AppSearchBar
 import com.artful.curatolist.ui.components.PaginationControls

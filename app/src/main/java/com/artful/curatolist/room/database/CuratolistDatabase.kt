@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.RoomDatabase.Callback
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.artful.curatolist.room.data.ArtListArtWorkCrossRef
 import com.artful.curatolist.room.data.ArtworkItem
@@ -15,8 +14,6 @@ import com.artful.curatolist.room.dao.ArtworkListDao
 import com.artful.curatolist.room.dao.ItemListJoinDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-
-import kotlinx.coroutines.launch
 
 @Database(
     entities = [ArtworkList::class, ArtworkItem::class, ArtListArtWorkCrossRef::class],

@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
-import com.artful.curatolist.model.Artwork
 import com.artful.curatolist.room.data.ArtworkItem
 import com.artful.curatolist.ui.components.ArtDetailContent
 import com.artful.curatolist.viewmodel.util.toArtwork
