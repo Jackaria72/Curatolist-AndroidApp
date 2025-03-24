@@ -27,7 +27,7 @@ class ListViewModel(private val repository: RoomRepository = Graph.repository) :
         getLists()
     }
 
-    private fun getLists(){
+    fun getLists(){
         viewModelScope.launch {
             repository.getAllLists.collectLatest {
                 state = state.copy(
@@ -44,12 +44,12 @@ class ListViewModel(private val repository: RoomRepository = Graph.repository) :
         }
     }
 
-    fun addToFavourites(artwork: Artwork) {
+    fun addArtToList(artwork: Artwork, listId: Long) {
         viewModelScope.launch {
-            val artworkItem = artwork.toArtworkItem(1L)
+            val artworkItem = artwork.toArtworkItem(listId)
             repository.insertArtworkItem(artworkItem)
             repository.insertArtworkItemToList(
-                ArtListArtWorkCrossRef(artworkItem.artworkId, 1)
+                ArtListArtWorkCrossRef(listId, artworkItem.artworkId)
             )
         }
     }
