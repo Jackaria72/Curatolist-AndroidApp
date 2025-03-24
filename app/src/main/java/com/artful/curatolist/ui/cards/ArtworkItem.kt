@@ -73,7 +73,7 @@ fun ArtworkItem(
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(artwork.imageUrl)
-                    .error(R.drawable.ic_no_art)
+                    .error(R.drawable.ic_no_image)
                     .placeholder(R.drawable.ic_placeholder)
                     .build(),
                 contentDescription = "Artwork Image",
