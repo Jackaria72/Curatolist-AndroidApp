@@ -4,18 +4,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,16 +18,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import com.artful.curatolist.room.data.ArtworkItem
 import com.artful.curatolist.ui.cards.ArtworkItem
 import com.artful.curatolist.ui.components.SettingsButton
 import com.artful.curatolist.viewmodel.ListViewModel
 import com.artful.curatolist.viewmodel.util.toArtwork
 
+//See Individual List
 @Composable
-fun ListDetailsScreen(
+fun ExhibitScreen(
     listId: Long,
-    listViewModel: ListViewModel
+    listViewModel: ListViewModel,
+    onNavigateToDetails: (ArtworkItem) -> Unit
 ) {
     var isEditMode by remember { mutableStateOf(false) }
 
@@ -64,7 +59,7 @@ fun ListDetailsScreen(
                 val art = item.toArtwork()
                 ArtworkItem(
                     artwork = art,
-                    onClick = { },
+                    onClick = { onNavigateToDetails(item) },
                     isEditMode = isEditMode,
                     onDelete = { listViewModel.removeArt(item) }
                 )
