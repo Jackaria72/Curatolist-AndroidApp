@@ -56,13 +56,14 @@ fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues
                 listViewModel = listViewModel,
                 navigateToListDetails = { listId ->
                     navController.navigate("list_details/$listId")
-                }) }
+                },
+                snackbarHostState = snackbarHostState) }
         composable(
             route = "list_details/{listId}",
             arguments = listOf(navArgument("listId")  { type = NavType.LongType})
         ) {
             backstackEntry -> val listId = backstackEntry.arguments?.getLong("listId") ?: -1L
-            ListDetailsScreen(listId = listId, listViewModel = listViewModel)
+            ListDetailsScreen(listId = listId, listViewModel = listViewModel, snackbarHostState = snackbarHostState)
         }
         //Details
         composable(NavDestination.Details.route) {
