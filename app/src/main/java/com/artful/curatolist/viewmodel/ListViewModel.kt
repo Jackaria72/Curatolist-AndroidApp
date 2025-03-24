@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.artful.curatolist.model.Artwork
 import com.artful.curatolist.room.Graph
 import com.artful.curatolist.room.data.ArtListArtWorkCrossRef
+import com.artful.curatolist.room.data.ArtworkItem
 import com.artful.curatolist.room.data.ArtworkList
 import com.artful.curatolist.room.data.ArtworkListWithArt
 import com.artful.curatolist.room.repository.RoomRepository
@@ -54,6 +55,12 @@ class ListViewModel(private val repository: RoomRepository = Graph.repository) :
         }
     }
 
+    fun removeArt(artworkItem: ArtworkItem) {
+        viewModelScope.launch {
+            repository.deleteArtworkItem(artworkItem)
+        }
+    }
+
     fun addList(listName: String, icon: String) {
         viewModelScope.launch {
             val newExhibit = ArtworkList(
@@ -61,6 +68,12 @@ class ListViewModel(private val repository: RoomRepository = Graph.repository) :
                 icon = icon
             )
             repository.insertList(newExhibit)
+        }
+    }
+
+    fun deleteList(list: ArtworkList) {
+        viewModelScope.launch {
+            repository.deleteList(list)
         }
     }
 }

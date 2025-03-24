@@ -9,7 +9,7 @@ data class Artwork(
     val title : String,
     val artist : String,
     val date : String,
-    val period : String,
+    val description : String,
     val medium : String,
     val technique : String,
     val classification : String,

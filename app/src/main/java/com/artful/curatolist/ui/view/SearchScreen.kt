@@ -133,7 +133,10 @@ fun SearchScreen(viewModel: ArtworkViewModel,
                     items(items = artwork) { singleArt ->
                         ArtworkItem(
                             artwork = singleArt,
-                            onClick = { navigateToDetails(singleArt) })
+                            onClick = { navigateToDetails(singleArt) },
+                            isEditMode = false,
+                            onDelete = {  }
+                        )
                     }
                 }
             }
